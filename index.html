@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marrows | Fire, bone and patience</title>
+  <meta name="description" content="Marrows is a fine-dining room built around fire, aged beef and roasted bone marrow. Reserve a table.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='72' font-size='70' text-anchor='middle' fill='%23c9a24a' font-family='serif'%3EM%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="app" v-cloak>
+
+  <!-- ============ PUBLIC SITE ============ -->
+  <template v-if="view === 'site'">
+    <header class="nav" :class="{ solid: scrolled }">
+      <a class="brand" href="#/" @click="goTop">Marrows</a>
+      <nav aria-label="Main">
+        <a href="#menu" @click.prevent="scrollTo('menu')">Menu</a>
+        <a href="#reserve" @click.prevent="scrollTo('reserve')">Reserve</a>
+        <a href="#visit" @click.prevent="scrollTo('visit')">Visit</a>
+        <a class="staff-link" href="#/staff">Staff</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <p class="hero-kicker">Fine dining. Fire. Bone.</p>
+        <h1 class="wordmark" aria-label="Marrows"><span>M</span><span>a</span><span>r</span><span>r</span><span>o</span><span>w</span><span>s</span></h1>
+        <div class="hero-rule" aria-hidden="true"></div>
+        <p class="hero-line">A dining room built around the best part of the bone.</p>
+        <div class="hero-actions">
+          <a class="btn gold" href="#reserve" @click.prevent="scrollTo('reserve')">Reserve a table</a>
+          <a class="btn ghost" href="#menu" @click.prevent="scrollTo('menu')">See the menu</a>
+        </div>
+      </section>
+
+      <section class="story">
+        <p class="story-text">We roast bones until the marrow turns to butter, age our beef for forty-five days and cook everything over open flame. Nothing on the plate is there to impress. It is there because it tastes of something.</p>
+        <dl class="facts">
+          <div><dt>Seats</dt><dd>38</dd></div>
+          <div><dt>Dry-aged</dt><dd>45 days</dd></div>
+          <div><dt>Open flame</dt><dd>Every dish</dd></div>
+        </dl>
+      </section>
+
+      <section class="menu" id="menu">
+        <header class="section-head">
+          <h2>The menu</h2>
+          <p>Prices in pesos. What is left tonight is shown beside each dish.</p>
+        </header>
+
+        <p v-if="menuState === 'loading'" class="note">Loading the menu...</p>
+        <div v-else-if="menuState === 'error'" class="note error">
+          The menu could not be loaded. <button class="link" @click="loadMenu">Try again</button>
+        </div>
+        <p v-else-if="!categories.length" class="note">The menu is being rewritten. Please check back soon.</p>
+
+        <div v-for="cat in categories" :key="cat.name" class="course">
+          <h3>{{ cat.name }}</h3>
+          <ul>
+            <li v-for="d in cat.items" :key="d.id" :class="{ out: d.quantity === 0 }">
+              <div class="dish-head">
+                <span class="dish-name">{{ d.product_name }}</span>
+                <span class="dish-dots" aria-hidden="true"></span>
+                <span class="dish-price">{{ money(d.price) }}</span>
+              </div>
+              <p class="dish-desc">{{ d.description }}</p>
+              <p class="dish-stock" v-if="d.quantity === 0">Sold out tonight</p>
+              <p class="dish-stock low" v-else-if="d.quantity <= 5">Only {{ d.quantity }} left</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="reserve" id="reserve">
+        <header class="section-head">
+          <h2>Reserve a table</h2>
+          <p>Send a request and we will confirm by email within a day.</p>
+        </header>
+
+        <div v-if="booked" class="booked" role="status">
+          <h3>Request received</h3>
+          <p>{{ booked }}</p>
+          <button class="btn ghost" @click="booked = ''">Make another request</button>
+        </div>
+
+        <form v-else class="form grid" @submit.prevent="submitReservation" novalidate>
+          <label>Name
+            <input v-model.trim="res.guest_name" autocomplete="name" :aria-invalid="!!resErr.guest_name">
+            <small v-if="resErr.guest_name">{{ resErr.guest_name }}</small>
+          </label>
+          <label>Email
+            <input v-model.trim="res.email" type="email" autocomplete="email" :aria-invalid="!!resErr.email">
+            <small v-if="resErr.email">{{ resErr.email }}</small>
+          </label>
+          <label>Phone <span class="opt">optional</span>
+            <input v-model.trim="res.phone" type="tel" autocomplete="tel" :aria-invalid="!!resErr.phone">
+            <small v-if="resErr.phone">{{ resErr.phone }}</small>
+          </label>
+          <label>Guests
+            <input v-model.number="res.party_size" type="number" min="1" max="20" :aria-invalid="!!resErr.party_size">
+            <small v-if="resErr.party_size">{{ resErr.party_size }}</small>
+          </label>
+          <label>Date
+            <input v-model="res.reserve_date" type="date" :min="today" :aria-invalid="!!resErr.reserve_date">
+            <small v-if="resErr.reserve_date">{{ resErr.reserve_date }}</small>
+          </label>
+          <label>Time
+            <select v-model="res.reserve_time" :aria-invalid="!!resErr.reserve_time">
+              <option value="" disabled>Choose a time</option>
+              <option v-for="t in times" :key="t" :value="t">{{ t }}</option>
+            </select>
+            <small v-if="resErr.reserve_time">{{ resErr.reserve_time }}</small>
+          </label>
+          <label class="wide">Anything we should know <span class="opt">optional</span>
+            <textarea v-model.trim="res.note" rows="3" maxlength="500" :aria-invalid="!!resErr.note"></textarea>
+            <small v-if="resErr.note">{{ resErr.note }}</small>
+          </label>
+          <p v-if="resFail" class="form-error wide" role="alert">{{ resFail }}</p>
+          <div class="wide"><button class="btn gold" :disabled="resBusy">{{ resBusy ? 'Sending...' : 'Request this table' }}</button></div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer" id="visit">
+      <div>
+        <h2 class="foot-brand">Marrows</h2>
+        <p>{{ site.address }}</p>
+        <p><a :href="'tel:' + site.phone">{{ site.phone }}</a></p>
+        <p><a :href="'mailto:' + site.email">{{ site.email }}</a></p>
+      </div>
+      <div>
+        <h3>Hours</h3>
+        <table class="hours"><tbody>
+          <tr v-for="h in site.hours" :key="h[0]"><th scope="row">{{ h[0] }}</th><td>{{ h[1] }}</td></tr>
+        </tbody></table>
+      </div>
+      <p class="legal">&copy; {{ year }} Marrows. <a href="#/staff">Staff sign in</a></p>
+    </footer>
+  </template>
+
+  <!-- ============ STAFF SIGN IN ============ -->
+  <main v-else-if="view === 'login'" class="signin">
+    <a class="brand" href="#/">Marrows</a>
+    <div class="signin-card">
+      <p class="hero-kicker">Staff access</p>
+      <h1>Welcome back.</h1>
+      <p class="lede">Sign in to keep the kitchen stocked, the menu current and every table accounted for.</p>
+      <form class="form" @submit.prevent="signIn" novalidate>
+        <label>Username or email
+          <input v-model.trim="loginForm.login" autocomplete="username" autofocus>
+        </label>
+        <label>Password
+          <input v-model="loginForm.password" type="password" autocomplete="current-password">
+        </label>
+        <p v-if="loginError" class="form-error" role="alert">{{ loginError }}</p>
+        <button class="btn gold" :disabled="loginBusy">{{ loginBusy ? 'Signing in...' : 'Sign in' }}</button>
+      </form>
+      <a class="back" href="#/">Back to the restaurant</a>
+    </div>
+  </main>
+
+  <!-- ============ STAFF DASHBOARD ============ -->
+  <div v-else-if="view === 'dashboard'" class="dash">
+    <header class="dash-bar">
+      <a class="brand" href="#/">Marrows</a>
+      <nav aria-label="Dashboard">
+        <button :class="{ on: tab === 'dishes' }" @click="tab = 'dishes'">Dishes</button>
+        <button :class="{ on: tab === 'reservations' }" @click="tab = 'reservations'; loadReservations()">Reservations</button>
+      </nav>
+      <div class="who">
+        <span>{{ user ? user.username : '' }}</span>
+        <button class="btn ghost small" @click="signOut">Sign out</button>
+      </div>
+    </header>
+
+    <div v-if="toast" class="toast" :class="toast.kind" role="status">{{ toast.text }}</div>
+
+    <!-- Dishes -->
+    <section v-if="tab === 'dishes'" class="panel">
+      <div class="panel-head">
+        <div>
+          <h1>Dishes</h1>
+          <p class="lede">{{ products.length }} on the menu. Changes show on the public menu straight away.</p>
+        </div>
+        <button class="btn gold" @click="openDish()" v-if="canWrite">Add a dish</button>
+      </div>
+
+      <p v-if="listState === 'loading'" class="note">Loading dishes...</p>
+      <div v-else-if="listState === 'error'" class="note error">Dishes could not be loaded. <button class="link" @click="loadProducts">Try again</button></div>
+      <div v-else-if="!products.length" class="empty">
+        <h2>No dishes yet</h2>
+        <p>Add your first dish and it will appear on the public menu.</p>
+      </div>
+
+      <div class="table-wrap" v-else>
+        <table class="grid-table">
+          <thead><tr><th>Dish</th><th>Course</th><th class="num">Price</th><th class="num">Left</th><th><span class="sr">Actions</span></th></tr></thead>
+          <tbody>
+            <tr v-for="p in products" :key="p.id">
+              <td><strong>{{ p.product_name }}</strong><span class="sub">{{ p.description }}</span></td>
+              <td>{{ p.category }}</td>
+              <td class="num">{{ money(p.price) }}</td>
+              <td class="num" :class="{ warn: p.quantity <= 5 }">{{ p.quantity }}</td>
+              <td class="actions">
+                <button class="link" @click="openDish(p)" v-if="canWrite">Edit</button>
+                <button class="link danger" @click="askDelete(p)" v-if="canDelete">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Reservations -->
+    <section v-else class="panel">
+      <div class="panel-head">
+        <div>
+          <h1>Reservations</h1>
+          <p class="lede">Requests from the website, soonest first.</p>
+        </div>
+      </div>
+      <p v-if="resState === 'loading'" class="note">Loading reservations...</p>
+      <div v-else-if="resState === 'error'" class="note error">Reservations could not be loaded. <button class="link" @click="loadReservations">Try again</button></div>
+      <div v-else-if="!reservations.length" class="empty">
+        <h2>No reservations yet</h2>
+        <p>New requests from the website will appear here.</p>
+      </div>
+      <div class="table-wrap" v-else>
+        <table class="grid-table">
+          <thead><tr><th>Guest</th><th>When</th><th class="num">Guests</th><th>Status</th><th><span class="sr">Actions</span></th></tr></thead>
+          <tbody>
+            <tr v-for="r in reservations" :key="r.id">
+              <td><strong>{{ r.guest_name }}</strong><span class="sub">{{ r.email }}<template v-if="r.phone"> / {{ r.phone }}</template></span><span class="sub" v-if="r.note">{{ r.note }}</span></td>
+              <td>{{ r.reserve_date }} at {{ r.reserve_time }}</td>
+              <td class="num">{{ r.party_size }}</td>
+              <td><span class="pill" :class="r.status">{{ r.status }}</span></td>
+              <td class="actions">
+                <button class="link" v-if="canWrite && r.status !== 'confirmed'" @click="setStatus(r, 'confirmed')">Confirm</button>
+                <button class="link" v-if="canWrite && r.status !== 'cancelled'" @click="setStatus(r, 'cancelled')">Cancel</button>
+                <button class="link danger" v-if="canDelete" @click="removeReservation(r)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Add / edit dish -->
+    <div v-if="dishOpen" class="overlay" @click.self="dishOpen = false" @keydown.esc="dishOpen = false">
+      <form class="modal form" @submit.prevent="saveDish" novalidate role="dialog" aria-modal="true" aria-labelledby="dish-title">
+        <h2 id="dish-title">{{ dish.id ? 'Edit dish' : 'Add a dish' }}</h2>
+        <label>Name
+          <input v-model.trim="dish.product_name" maxlength="100" :aria-invalid="!!dishErr.product_name">
+          <small v-if="dishErr.product_name">{{ dishErr.product_name }}</small>
+        </label>
+        <label>Course
+          <input v-model.trim="dish.category" list="courses" maxlength="50" :aria-invalid="!!dishErr.category">
+          <datalist id="courses"><option>To begin</option><option>Mains</option><option>Sweet</option><option>Drinks</option></datalist>
+          <small v-if="dishErr.category">{{ dishErr.category }}</small>
+        </label>
+        <label>Description
+          <textarea v-model.trim="dish.description" rows="3"></textarea>
+        </label>
+        <div class="two">
+          <label>Price (PHP)
+            <input v-model="dish.price" type="number" min="0" step="0.01" :aria-invalid="!!dishErr.price">
+            <small v-if="dishErr.price">{{ dishErr.price }}</small>
+          </label>
+          <label>Portions left
+            <input v-model="dish.quantity" type="number" min="0" step="1" :aria-invalid="!!dishErr.quantity">
+            <small v-if="dishErr.quantity">{{ dishErr.quantity }}</small>
+          </label>
+        </div>
+        <p v-if="dishFail" class="form-error" role="alert">{{ dishFail }}</p>
+        <div class="modal-actions">
+          <button type="button" class="btn ghost" @click="dishOpen = false">Cancel</button>
+          <button class="btn gold" :disabled="dishBusy">{{ dishBusy ? 'Saving...' : (dish.id ? 'Save changes' : 'Add dish') }}</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Delete confirm -->
+    <div v-if="toDelete" class="overlay" @click.self="toDelete = null">
+      <div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="del-title">
+        <h2 id="del-title">Delete {{ toDelete.product_name }}?</h2>
+        <p class="lede">It will disappear from the public menu. This cannot be undone.</p>
+        <div class="modal-actions">
+          <button class="btn ghost" @click="toDelete = null">Keep dish</button>
+          <button class="btn danger" :disabled="delBusy" @click="confirmDelete">{{ delBusy ? 'Deleting...' : 'Delete dish' }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
+<script src="assets/js/app.js"></script>
+<noscript><p style="padding:2rem;color:#c9a24a">Marrows needs JavaScript to load the menu and reservations.</p></noscript>
+</body>
+</html>

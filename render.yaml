@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: marrows-web
+    runtime: static
+    buildCommand: sh build.sh
+    staticPublishPath: dist
+    envVars:
+      - key: API_URL
+        sync: false
