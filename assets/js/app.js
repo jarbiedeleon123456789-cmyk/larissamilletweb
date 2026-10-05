@@ -96,6 +96,14 @@
 
   var filipinoMenu = [
     {
+      id: "roasted-bone-marrow", category: "To begin", product_name: "Roasted Bone Marrow",
+      description: "Roasted canoe bones, parsley-caper salad and grilled sourdough.",
+      price: 520, image: "assets/images/menu/bone-marrow.jpg", imageAlt: "Roasted bone marrow with toasted bread",
+      photoBy: "Ewan Munro", license: "CC BY-SA 2.0", isBestSeller: true,
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:St_John_Restaurant,_Smithfield,_London_(4409853989).jpg"
+    },
+    {
       id: "sisig", category: "To begin", product_name: "Kapampangan Pork Sisig",
       description: "Sizzling chopped pork with calamansi, onion and a little heat.",
       price: 520, image: "assets/images/menu/sisig.jpg", imageAlt: "Kapampangan pork sisig",
@@ -150,6 +158,14 @@
       photoBy: "LReformado", license: "CC BY 4.0",
       licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:BULALO.jpg"
+    },
+    {
+      id: "lomi", category: "Mains", product_name: "Batangas Lomi",
+      description: "Thick egg noodles in a rich, savory broth with pork, vegetables and a soft egg.",
+      price: 420, image: "assets/images/menu/lomi.jpg", imageAlt: "A bowl of Batangas lomi noodle soup",
+      photoBy: "Markadan", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Lomi_Batangas.jpg"
     },
     {
       id: "pancit", category: "Mains", product_name: "Pancit Canton",
@@ -246,7 +262,11 @@
       },
       filipinoCategories: function () {
         var order = [], map = {};
+        var liveHasBoneMarrow = this.menu.some(function (dish) {
+          return /bone marrow/i.test(dish.product_name || "");
+        });
         this.filipinoMenu.forEach(function (dish) {
+          if (dish.isBestSeller && liveHasBoneMarrow) return;
           if (!map[dish.category]) { map[dish.category] = []; order.push(dish.category); }
           map[dish.category].push(dish);
         });
@@ -257,6 +277,7 @@
     },
     methods: {
       money: function (v) { return peso.format(Number(v) || 0); },
+      isBestSellerDish: function (dish) { return /bone marrow/i.test(dish.product_name || ""); },
 
       // ----- routing -----
       route: function () {

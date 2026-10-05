@@ -68,6 +68,7 @@
           <ul>
             <li v-for="d in cat.items" :key="d.id" :class="{ out: d.quantity === 0 }">
               <div class="dish-head">
+                <span v-if="isBestSellerDish(d)" class="bestseller-badge">Best seller</span>
                 <span class="dish-name">{{ d.product_name }}</span>
                 <span class="dish-dots" aria-hidden="true"></span>
                 <span class="dish-price">{{ money(d.price) }}</span>
@@ -82,7 +83,7 @@
         <header class="section-head filipino-head">
           <p class="eyebrow">A little closer to home</p>
           <h2>Filipino favorites</h2>
-          <p>Twelve much-loved classics, from sizzling sisig and comforting soups to sweet merienda favorites. Every photo is shared under an open license.</p>
+          <p>Filipino classics, from roasted bone marrow and Batangas lomi to sweet merienda favorites. Every photo is shared under an open license.</p>
           <p class="sample-note">Sample dishes and prices for presentation. Confirm pricing and availability before serving.</p>
         </header>
 
@@ -91,6 +92,7 @@
           <ul class="filipino-grid">
             <li v-for="dish in cat.items" :key="dish.id" class="filipino-card">
               <img :src="dish.image" :alt="dish.imageAlt" loading="lazy">
+              <span v-if="dish.isBestSeller" class="bestseller-badge card-bestseller">Best seller</span>
               <div class="filipino-card-body">
                 <div class="dish-head">
                   <span class="dish-name">{{ dish.product_name }}</span>

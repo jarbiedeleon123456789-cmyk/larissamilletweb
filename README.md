@@ -8,7 +8,7 @@ Flow: **Sign in > Dish list > Add / Edit / Delete > Sign out**, plus the public 
 - `#/staff` sign in, then the dashboard (Dishes and Reservations tabs)
 - The browser only talks to the API. It never connects to the database.
 - Tokens are kept in `localStorage`; an expired access token is refreshed automatically.
-- The public menu includes twelve Filipino favorites with example prices. Dish and hero photos are from Wikimedia Commons and are credited on the page; verify prices and availability before serving.
+- The public menu includes Filipino favorites with example prices and marks roasted bone marrow as the bestseller. Dish and hero photos are from Wikimedia Commons and are credited on the page; verify prices and availability before serving.
 
 ## Configure
 
