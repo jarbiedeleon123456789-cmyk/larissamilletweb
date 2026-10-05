@@ -37,6 +37,9 @@
           <a class="btn gold" href="#reserve" @click.prevent="scrollTo('reserve')">Reserve a table</a>
           <a class="btn ghost" href="#menu" @click.prevent="scrollTo('menu')">See the menu</a>
         </div>
+        <a class="hero-credit" href="https://commons.wikimedia.org/wiki/File:Closeup_of_raging_flames_in_a_large_bonfire._-_Flickr_-_shixart1985.jpg" target="_blank" rel="noopener noreferrer">
+          Fire photo: Nenad Stojkovic · CC BY 2.0
+        </a>
       </section>
 
       <section class="story">
@@ -56,7 +59,7 @@
 
         <p v-if="menuState === 'loading'" class="note">Loading the menu...</p>
         <div v-else-if="menuState === 'error'" class="note error">
-          The menu could not be loaded. <button class="link" @click="loadMenu">Try again</button>
+          The live menu could not be loaded. Filipino favorites are shown below. <button class="link" @click="loadMenu">Try again</button>
         </div>
         <p v-else-if="!categories.length" class="note">The menu is being rewritten. Please check back soon.</p>
 
@@ -72,6 +75,34 @@
               <p class="dish-desc">{{ d.description }}</p>
               <p class="dish-stock" v-if="d.quantity === 0">Sold out tonight</p>
               <p class="dish-stock low" v-else-if="d.quantity <= 5">Only {{ d.quantity }} left</p>
+            </li>
+          </ul>
+        </div>
+
+        <header class="section-head filipino-head">
+          <p class="eyebrow">A little closer to home</p>
+          <h2>Filipino favorites</h2>
+          <p>Twelve much-loved classics, from sizzling sisig and comforting soups to sweet merienda favorites. Every photo is shared under an open license.</p>
+          <p class="sample-note">Sample dishes and prices for presentation. Confirm pricing and availability before serving.</p>
+        </header>
+
+        <div v-for="cat in filipinoCategories" :key="cat.name" class="filipino-course">
+          <h3>{{ cat.name }}</h3>
+          <ul class="filipino-grid">
+            <li v-for="dish in cat.items" :key="dish.id" class="filipino-card">
+              <img :src="dish.image" :alt="dish.imageAlt" loading="lazy">
+              <div class="filipino-card-body">
+                <div class="dish-head">
+                  <span class="dish-name">{{ dish.product_name }}</span>
+                  <span class="dish-dots" aria-hidden="true"></span>
+                  <span class="dish-price">{{ money(dish.price) }}</span>
+                </div>
+                <p class="dish-desc">{{ dish.description }}</p>
+                <p class="photo-credit">
+                  <a :href="dish.sourceUrl" target="_blank" rel="noopener noreferrer">Photo: {{ dish.photoBy }}</a>
+                  · <a :href="dish.licenseUrl" target="_blank" rel="noopener noreferrer">{{ dish.license }}</a>
+                </p>
+              </div>
             </li>
           </ul>
         </div>

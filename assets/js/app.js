@@ -94,6 +94,105 @@
     return { id: null, product_name: "", category: "Mains", description: "", price: "", quantity: "" };
   };
 
+  var filipinoMenu = [
+    {
+      id: "sisig", category: "To begin", product_name: "Kapampangan Pork Sisig",
+      description: "Sizzling chopped pork with calamansi, onion and a little heat.",
+      price: 520, image: "assets/images/menu/sisig.jpg", imageAlt: "Kapampangan pork sisig",
+      photoBy: "Ralff Nestor Nacor", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Kapampangan_Sisig,_Dec_2025.jpg"
+    },
+    {
+      id: "lumpia", category: "To begin", product_name: "Fresh Lumpiang Sariwa",
+      description: "Tender vegetables wrapped in a soft crepe with a rich peanut-garlic sauce.",
+      price: 360, image: "assets/images/menu/lumpia.jpg", imageAlt: "Fresh lumpiang sariwa with peanut sauce",
+      photoBy: "ChristianCelestial", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Fresh_lumpia_(Lumpiang_sariwa).jpg"
+    },
+    {
+      id: "adobo", category: "Mains", product_name: "Chicken Adobo",
+      description: "Chicken braised in soy, vinegar, garlic and bay, served with rice.",
+      price: 480, image: "assets/images/menu/chicken-adobo.jpg", imageAlt: "Filipino chicken adobo",
+      photoBy: "Joy D. Ganaden", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Adobo_DSCF4391.jpg"
+    },
+    {
+      id: "sinigang", category: "Mains", product_name: "Sinigang na Isda",
+      description: "A bright, tamarind-soured fish soup with seasonal vegetables.",
+      price: 620, image: "assets/images/menu/sinigang.jpg", imageAlt: "Filipino sinigang with fish and vegetables",
+      photoBy: "Judgefloro", license: "CC0",
+      licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:2949Cuisine_Meals_in_Bulacan_Sinigang_25.jpg"
+    },
+    {
+      id: "kare-kare", category: "Mains", product_name: "Kare-Kare with Bagnet",
+      description: "Peanut-rich kare-kare with crisp pork and vegetables; bagoong on the side.",
+      price: 760, image: "assets/images/menu/kare-kare.jpg", imageAlt: "Pork kare-kare",
+      photoBy: "Lyraauce", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Bagnet_Kare_Kare.jpg"
+    },
+    {
+      id: "lechon-kawali", category: "Mains", product_name: "Lechon Kawali",
+      description: "Crisp pork belly with a tender center and a tangy dipping sauce.",
+      price: 680, image: "assets/images/menu/lechon-kawali.jpg", imageAlt: "Crisp pieces of Filipino lechon kawali",
+      photoBy: "Aerous", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Lechon_Kawali_sa_handaan.jpg"
+    },
+    {
+      id: "bulalo", category: "Mains", product_name: "Batangas Bulalo",
+      description: "Slow-simmered beef shank and marrow with sweet corn and greens.",
+      price: 790, image: "assets/images/menu/bulalo.jpg", imageAlt: "Batangas bulalo beef shank soup",
+      photoBy: "LReformado", license: "CC BY 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:BULALO.jpg"
+    },
+    {
+      id: "pancit", category: "Mains", product_name: "Pancit Canton",
+      description: "Stir-fried noodles with vegetables, citrus and a choice of chicken or pork.",
+      price: 460, image: "assets/images/menu/pancit.jpg", imageAlt: "Filipino pancit canton noodles with meat and vegetables",
+      photoBy: "mooglet", license: "CC BY-SA 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Pancit_Canton.jpg"
+    },
+    {
+      id: "bistek", category: "Mains", product_name: "Bistek Tagalog",
+      description: "Beef and sweet onions in a savory calamansi-soy sauce, served with rice.",
+      price: 590, image: "assets/images/menu/bistek.jpg", imageAlt: "Bistek Tagalog beef with onions",
+      photoBy: "Arnold Gatilao", license: "CC BY 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Bistek_Tagalog-01.jpg"
+    },
+    {
+      id: "halo-halo", category: "Sweet", product_name: "Halo-Halo",
+      description: "Shaved ice, sweet beans and fruit, leche flan and ube ice cream.",
+      price: 320, image: "assets/images/menu/halo-halo.jpg", imageAlt: "Halo-halo topped with ube ice cream",
+      photoBy: "Herbertkikoy", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Halo-Halo.jpg"
+    },
+    {
+      id: "turon", category: "Sweet", product_name: "Banana Turon",
+      description: "Caramelized saba banana wrapped crisp, finished with a touch of langka.",
+      price: 240, image: "assets/images/menu/turon.jpg", imageAlt: "Golden Filipino banana turon",
+      photoBy: "Herbertkikoy", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Pinoy_Turon.jpg"
+    },
+    {
+      id: "leche-flan", category: "Sweet", product_name: "Leche Flan",
+      description: "Silky baked custard with a deep golden caramel.",
+      price: 260, image: "assets/images/menu/leche-flan.jpg", imageAlt: "Golden Filipino leche flan",
+      photoBy: "Judgefloro", license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:0002jfDesserts_Pampanga_Philippinesfvf_07.JPG"
+    }
+  ];
+
   var app = Vue.createApp({
     data: function () {
       var times = [];
@@ -111,6 +210,7 @@
         // public menu
         menu: [],
         menuState: "loading",
+        filipinoMenu: filipinoMenu,
 
         // reservation form
         res: emptyRes(), resErr: {}, resFail: "", resBusy: false, booked: "",
@@ -143,6 +243,14 @@
           return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
         });
         return order.map(function (n) { return { name: n, items: map[n] }; });
+      },
+      filipinoCategories: function () {
+        var order = [], map = {};
+        this.filipinoMenu.forEach(function (dish) {
+          if (!map[dish.category]) { map[dish.category] = []; order.push(dish.category); }
+          map[dish.category].push(dish);
+        });
+        return order.map(function (name) { return { name: name, items: map[name] }; });
       },
       canWrite: function () { return this.scopes.indexOf("write") !== -1; },
       canDelete: function () { return this.scopes.indexOf("delete") !== -1; }
@@ -349,6 +457,22 @@
     },
     mounted: function () {
       var self = this;
+      if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        this.$nextTick(function () {
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+          document.querySelectorAll(".story-text, .facts > div, .section-head, .filipino-course > h3, .filipino-card").forEach(function (element) {
+            element.classList.add("reveal");
+            observer.observe(element);
+          });
+        });
+      }
       window.addEventListener("hashchange", function () {
         if (window.location.hash.indexOf("#/staff") === 0 || window.location.hash === "#/" || window.location.hash === "") self.route();
       });
