@@ -536,7 +536,7 @@
         </div>
       </div>
       <p v-if="resState === 'loading'" class="note">Loading reservations...</p>
-      <div v-else-if="resState === 'error'" class="note error">Reservations could not be loaded. <button class="link" @click="loadReservations">Try again</button></div>
+      <div v-else-if="resState === 'error'" class="note error">Reservations could not be loaded: {{ resLoadError }} <button class="link" @click="loadReservations">Try again</button></div>
       <div v-else-if="!reservations.length" class="empty">
         <h2>No reservations yet</h2>
         <p>New requests from the website will appear here.</p>

@@ -295,7 +295,7 @@
         // dashboard
         tab: "dishes",
         products: [], listState: "loading",
-        reservations: [], resState: "loading",
+        reservations: [], resState: "loading", resLoadError: "",
         toast: null, toastTimer: null,
 
         dishOpen: false, dish: emptyDish(), dishErr: {}, dishFail: "", dishBusy: false,
@@ -668,11 +668,15 @@
       loadReservations: function () {
         var self = this;
         this.resState = "loading";
+        this.resLoadError = "";
         api("/api/reservations", { auth: true }).then(function (d) {
           self.reservations = d.data || [];
           self.resState = "ready";
         }, function (err) {
-          if (!self.handleAuthError(err)) self.resState = "error";
+          if (!self.handleAuthError(err)) {
+            self.resLoadError = err.message || "The reservations service returned an unknown error.";
+            self.resState = "error";
+          }
         });
       },
       setStatus: function (r, status) {
