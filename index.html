@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Marrows | Fire, bone and patience</title>
-  <meta name="description" content="Marrows is a fine-dining room built around fire, aged beef and roasted bone marrow. Reserve a table.">
+  <title>Marrows | Fine Dining &amp; Lounge</title>
+  <meta name="description" content="An evening at Marrows, with open-fire cooking, Filipino favorites and a table worth lingering over. Explore the menu and request a reservation.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='72' font-size='70' text-anchor='middle' fill='%23c9a24a' font-family='serif'%3EM%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,44 +17,130 @@
 
   <!-- ============ PUBLIC SITE ============ -->
   <template v-if="view === 'site'">
-    <header class="nav" :class="{ solid: scrolled }">
-      <a class="brand" href="#/" @click="goTop">Marrows</a>
+    <header class="nav" :class="{ solid: scrolled, 'menu-open': mobileNavOpen }">
+      <a class="brand" href="#/" @click="goTop" aria-label="Marrows home">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-copy"><strong>MARROWS</strong><small>Fine Dining &amp; Lounge</small></span>
+      </a>
       <nav aria-label="Main">
+        <a href="#top" @click.prevent="goTop">Maison</a>
+        <a href="#/lounge" @click="mobileNavOpen = false">The Lounge</a>
         <a href="#menu" @click.prevent="scrollTo('menu')">Menu</a>
-        <a href="#reserve" @click.prevent="scrollTo('reserve')">Reserve</a>
+        <a href="#/sommelier" @click="mobileNavOpen = false">Sommelier</a>
         <a href="#visit" @click.prevent="scrollTo('visit')">Visit</a>
-        <a class="staff-link" href="#/staff">Staff</a>
+        <a href="#reserve" @click.prevent="scrollTo('reserve')">Reserve</a>
+        <a class="staff-link" href="#/staff" @click="mobileNavOpen = false">Staff sign in</a>
       </nav>
+      <button class="menu-toggle" type="button" :aria-expanded="mobileNavOpen" aria-label="Toggle navigation" @click="mobileNavOpen = !mobileNavOpen">
+        <span></span><span></span><span></span>
+      </button>
     </header>
 
     <main>
       <section class="hero" id="top">
-        <p class="hero-kicker">Fine dining. Fire. Bone.</p>
-        <h1 class="wordmark" aria-label="Marrows"><span>M</span><span>a</span><span>r</span><span>r</span><span>o</span><span>w</span><span>s</span></h1>
-        <div class="hero-rule" aria-hidden="true"></div>
-        <p class="hero-line">A dining room built around the best part of the bone.</p>
-        <div class="hero-actions">
-          <a class="btn gold" href="#reserve" @click.prevent="scrollTo('reserve')">Reserve a table</a>
-          <a class="btn ghost" href="#menu" @click.prevent="scrollTo('menu')">See the menu</a>
+        <div class="hero-content">
+          <p class="hero-kicker"><span></span> Est. 2019 · San Juan City</p>
+          <h1 class="hero-title"><span>An evening</span><em>written in gold</em><span>light.</span></h1>
+          <p class="hero-line">A dining house where every table invites you to linger. We cook over open flame, serve Filipino favorites and keep the candle lit.</p>
+          <div class="hero-actions">
+            <a class="btn gold" href="#reserve" @click.prevent="scrollTo('reserve')">Reserve a table</a>
+            <a class="btn ghost" href="#menu" @click.prevent="scrollTo('menu')">Explore the menu</a>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>38</dt><dd>Seats</dd></div>
+            <div><dt>45 days</dt><dd>Dry-aged</dd></div>
+            <div><dt>Open flame</dt><dd>Every service</dd></div>
+          </dl>
         </div>
+        <div class="scroll-cue" aria-hidden="true"><span>Scroll to discover</span><i></i></div>
         <a class="hero-credit" href="https://commons.wikimedia.org/wiki/File:Closeup_of_raging_flames_in_a_large_bonfire._-_Flickr_-_shixart1985.jpg" target="_blank" rel="noopener noreferrer">
           Fire photo: Nenad Stojkovic · CC BY 2.0
         </a>
       </section>
 
-      <section class="story">
-        <p class="story-text">We roast bones until the marrow turns to butter, age our beef for forty-five days and cook everything over open flame. Nothing on the plate is there to impress. It is there because it tastes of something.</p>
-        <dl class="facts">
-          <div><dt>Seats</dt><dd>38</dd></div>
-          <div><dt>Dry-aged</dt><dd>45 days</dd></div>
-          <div><dt>Open flame</dt><dd>Every dish</dd></div>
-        </dl>
+      <section class="marquee" aria-label="The Marrows experience">
+        <div class="marquee-track" aria-hidden="true">
+          <span>Open flame <i>✦</i> Dry-aged for 45 days <i>✦</i> Filipino favorites <i>✦</i> A table worth lingering over <i>✦</i></span>
+          <span>Open flame <i>✦</i> Dry-aged for 45 days <i>✦</i> Filipino favorites <i>✦</i> A table worth lingering over <i>✦</i></span>
+        </div>
+      </section>
+
+      <section class="story house">
+        <header class="house-heading">
+          <p class="eyebrow">The house</p>
+          <h2>Three moments,<br><em>one golden thread.</em></h2>
+          <p>Come for the fire, stay for the table. Marrows is a place for generous plates, good company and evenings that take their time.</p>
+        </header>
+        <div class="house-cards">
+          <article class="house-card">
+            <div class="house-image"><img src="assets/images/menu/bone-marrow.jpg" alt="Roasted bone marrow served with toasted bread" loading="lazy"><span>I</span></div>
+            <div class="house-card-copy"><h3>The Dining House</h3><p>Seasonal cooking, a glowing hearth and a menu made to be shared.</p></div>
+          </article>
+          <article class="house-card">
+            <div class="house-image"><img src="assets/images/menu/fire-background.jpg" alt="Flames rising from the open fire" loading="lazy"><span>II</span></div>
+            <div class="house-card-copy"><h3>Over the Fire</h3><p>Deep, patient flavor from the first ember to the last plate.</p></div>
+          </article>
+          <article class="house-card">
+            <div class="house-image"><img src="assets/images/menu/sisig.jpg" alt="Filipino sisig prepared to share" loading="lazy"><span>III</span></div>
+            <div class="house-card-copy"><h3>Closer to Home</h3><p>Filipino favorites and familiar flavors, given the Marrows treatment.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="signature">
+        <header class="section-head signature-heading">
+          <p class="eyebrow">From the kitchen</p>
+          <h2>Signature <em>acts</em></h2>
+          <p>A few reasons to stay for one more course.</p>
+        </header>
+        <div class="signature-grid">
+          <a class="signature-card" href="#menu" @click.prevent="scrollTo('menu')">
+            <img src="assets/images/menu/bone-marrow.jpg" alt="Roasted bone marrow with toasted bread" loading="lazy">
+            <span class="signature-overlay"></span>
+            <span class="signature-copy"><small>To begin</small><strong>Roasted Bone Marrow</strong><i>Parsley-caper salad · grilled sourdough</i></span>
+          </a>
+          <a class="signature-card" href="#menu" @click.prevent="scrollTo('menu')">
+            <img src="assets/images/menu/bistek.jpg" alt="Filipino bistek served with rice" loading="lazy">
+            <span class="signature-overlay"></span>
+            <span class="signature-copy"><small>From the fire</small><strong>Filipino Favorites</strong><i>Bold, generous and meant to be shared</i></span>
+          </a>
+          <a class="signature-card" href="#menu" @click.prevent="scrollTo('menu')">
+            <img src="assets/images/menu/halo-halo.jpg" alt="Colorful Filipino halo-halo dessert" loading="lazy">
+            <span class="signature-overlay"></span>
+            <span class="signature-copy"><small>To finish</small><strong>A Little Something Sweet</strong><i>A final note for the table</i></span>
+          </a>
+        </div>
+        <a class="signature-link" href="#menu" @click.prevent="scrollTo('menu')">Discover the menu <span aria-hidden="true">↗</span></a>
+      </section>
+
+      <section class="pairing">
+        <div class="pairing-backdrop" aria-hidden="true"></div>
+        <div class="pairing-content">
+          <p class="eyebrow">Make it your evening</p>
+          <h2>A table set<br><em>for the way you gather.</em></h2>
+          <p>Mark an occasion, tell us what you love, and let our team make the evening feel like yours.</p>
+          <div class="hero-actions">
+            <a class="btn gold" href="#reserve" @click.prevent="scrollTo('reserve')">Plan your visit</a>
+            <a class="btn ghost" href="#menu" @click.prevent="scrollTo('menu')">Explore the menu</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="experience">
+        <p class="eyebrow">The Marrows experience</p>
+        <h2>Stay for one more <em>course.</em></h2>
+        <p>From the first ember to the last sweet bite, there is always a reason to linger a little longer.</p>
+        <div class="experience-actions">
+          <a class="btn gold" href="#reserve" @click.prevent="scrollTo('reserve')">Reserve a table</a>
+          <a class="btn ghost" href="#menu" @click.prevent="scrollTo('menu')">View the menu</a>
+        </div>
       </section>
 
       <section class="menu" id="menu">
         <header class="section-head">
+          <p class="eyebrow">Made for the moment</p>
           <h2>The menu</h2>
-          <p>Prices in pesos. What is left tonight is shown beside each dish.</p>
+          <p>Prices in pesos. Live availability is shown beside each dish.</p>
         </header>
 
         <p v-if="menuState === 'loading'" class="note">Loading the menu...</p>
@@ -111,52 +197,56 @@
       </section>
 
       <section class="reserve" id="reserve">
-        <header class="section-head">
-          <h2>Reserve a table</h2>
-          <p>Send a request and we will confirm by email within a day.</p>
-        </header>
-
-        <div v-if="booked" class="booked" role="status">
-          <h3>Request received</h3>
-          <p>{{ booked }}</p>
-          <button class="btn ghost" @click="booked = ''">Make another request</button>
+        <div class="reserve-intro">
+          <p class="eyebrow">Your table is waiting</p>
+          <h2>Make an evening <em>of it.</em></h2>
+          <p>Tell us when you would like to join us. Our team will confirm your request by email within a day.</p>
+          <div class="reserve-note"><span aria-hidden="true">✦</span><p>For larger parties or special arrangements, leave us a note and we will be in touch.</p></div>
         </div>
 
-        <form v-else class="form grid" @submit.prevent="submitReservation" novalidate>
-          <label>Name
-            <input v-model.trim="res.guest_name" autocomplete="name" :aria-invalid="!!resErr.guest_name">
-            <small v-if="resErr.guest_name">{{ resErr.guest_name }}</small>
-          </label>
-          <label>Email
-            <input v-model.trim="res.email" type="email" autocomplete="email" :aria-invalid="!!resErr.email">
-            <small v-if="resErr.email">{{ resErr.email }}</small>
-          </label>
-          <label>Phone <span class="opt">optional</span>
-            <input v-model.trim="res.phone" type="tel" autocomplete="tel" :aria-invalid="!!resErr.phone">
-            <small v-if="resErr.phone">{{ resErr.phone }}</small>
-          </label>
-          <label>Guests
-            <input v-model.number="res.party_size" type="number" min="1" max="20" :aria-invalid="!!resErr.party_size">
-            <small v-if="resErr.party_size">{{ resErr.party_size }}</small>
-          </label>
-          <label>Date
-            <input v-model="res.reserve_date" type="date" :min="today" :aria-invalid="!!resErr.reserve_date">
-            <small v-if="resErr.reserve_date">{{ resErr.reserve_date }}</small>
-          </label>
-          <label>Time
-            <select v-model="res.reserve_time" :aria-invalid="!!resErr.reserve_time">
-              <option value="" disabled>Choose a time</option>
-              <option v-for="t in times" :key="t" :value="t">{{ t }}</option>
-            </select>
-            <small v-if="resErr.reserve_time">{{ resErr.reserve_time }}</small>
-          </label>
-          <label class="wide">Anything we should know <span class="opt">optional</span>
-            <textarea v-model.trim="res.note" rows="3" maxlength="500" :aria-invalid="!!resErr.note"></textarea>
-            <small v-if="resErr.note">{{ resErr.note }}</small>
-          </label>
-          <p v-if="resFail" class="form-error wide" role="alert">{{ resFail }}</p>
-          <div class="wide"><button class="btn gold" :disabled="resBusy">{{ resBusy ? 'Sending...' : 'Request this table' }}</button></div>
-        </form>
+        <div class="reserve-form-wrap">
+          <div v-if="booked" class="booked" role="status">
+            <h3>Request received</h3>
+            <p>{{ booked }}</p>
+            <button class="btn ghost" @click="booked = ''">Make another request</button>
+          </div>
+
+          <form v-else class="form grid" @submit.prevent="submitReservation" novalidate>
+            <label>Name
+              <input v-model.trim="res.guest_name" autocomplete="name" :aria-invalid="!!resErr.guest_name">
+              <small v-if="resErr.guest_name">{{ resErr.guest_name }}</small>
+            </label>
+            <label>Email
+              <input v-model.trim="res.email" type="email" autocomplete="email" :aria-invalid="!!resErr.email">
+              <small v-if="resErr.email">{{ resErr.email }}</small>
+            </label>
+            <label>Phone <span class="opt">optional</span>
+              <input v-model.trim="res.phone" type="tel" autocomplete="tel" :aria-invalid="!!resErr.phone">
+              <small v-if="resErr.phone">{{ resErr.phone }}</small>
+            </label>
+            <label>Guests
+              <input v-model.number="res.party_size" type="number" min="1" max="20" :aria-invalid="!!resErr.party_size">
+              <small v-if="resErr.party_size">{{ resErr.party_size }}</small>
+            </label>
+            <label>Date
+              <input v-model="res.reserve_date" type="date" :min="today" :aria-invalid="!!resErr.reserve_date">
+              <small v-if="resErr.reserve_date">{{ resErr.reserve_date }}</small>
+            </label>
+            <label>Time
+              <select v-model="res.reserve_time" :aria-invalid="!!resErr.reserve_time">
+                <option value="" disabled>Choose a time</option>
+                <option v-for="t in times" :key="t" :value="t">{{ t }}</option>
+              </select>
+              <small v-if="resErr.reserve_time">{{ resErr.reserve_time }}</small>
+            </label>
+            <label class="wide">Anything we should know <span class="opt">optional</span>
+              <textarea v-model.trim="res.note" rows="3" maxlength="500" :aria-invalid="!!resErr.note"></textarea>
+              <small v-if="resErr.note">{{ resErr.note }}</small>
+            </label>
+            <p v-if="resFail" class="form-error wide" role="alert">{{ resFail }}</p>
+            <div class="wide"><button class="btn gold" :disabled="resBusy">{{ resBusy ? 'Sending...' : 'Request this table' }}</button></div>
+          </form>
+        </div>
       </section>
     </main>
 
@@ -176,6 +266,193 @@
       <p class="legal">&copy; {{ year }} Marrows. <a href="#/staff">Staff sign in</a></p>
     </footer>
   </template>
+
+  <!-- ============ LOUNGE FLOOR PLAN ============ -->
+  <main v-else-if="view === 'lounge'" class="feature-page lounge-page">
+    <div class="feature-topline">
+      <a class="brand" href="#/" @click="goTop" aria-label="Marrows home">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-copy"><strong>MARROWS</strong><small>Fine Dining &amp; Lounge</small></span>
+      </a>
+      <nav aria-label="Lounge navigation">
+        <a href="#/" @click="goTop">Maison</a>
+        <a href="#/sommelier">Sommelier</a>
+        <a href="#/" @click.prevent="navigateToSection('menu')">Menu</a>
+      </nav>
+    </div>
+
+    <section class="feature-hero lounge-hero">
+      <div class="feature-kicker"><span></span> Ground floor · 12 named tables</div>
+      <h1>The Lounge,<br><em>table by table.</em></h1>
+      <p>Explore the room, choose a place that feels like yours, and send a request to our team. Your selection is included with your reservation request; availability is confirmed by staff.</p>
+      <a class="text-cta" href="#lounge-plan" @click.prevent="scrollTo('lounge-plan')">Explore the floor plan <span>↓</span></a>
+    </section>
+
+    <section class="lounge-experience" id="lounge-plan">
+      <div class="lounge-controls glass">
+        <div>
+          <label class="label" for="lounge-date">Choose a date</label>
+          <input id="lounge-date" class="field lounge-date" type="date" v-model="loungeRequest.reserve_date" :min="today">
+          <small v-if="loungeErr.reserve_date" class="lounge-field-error">{{ loungeErr.reserve_date }}</small>
+        </div>
+        <div class="lounge-session">
+          <span class="label">Choose a session</span>
+          <div class="session-options">
+            <button v-for="time in times" :key="time" type="button" :class="{ selected: loungeRequest.reserve_time === time }" @click="loungeRequest.reserve_time = time">{{ time }}</button>
+          </div>
+          <small v-if="loungeErr.reserve_time" class="lounge-field-error">{{ loungeErr.reserve_time }}</small>
+        </div>
+        <div class="lounge-availability">
+          <span class="label">Availability</span>
+          <strong>Confirmed by our team</strong>
+        </div>
+      </div>
+
+      <div class="lounge-layout">
+        <div class="floorplan-shell glass">
+          <div class="floorplan-heading">
+            <div><span class="eyebrow">The room, at a glance</span><h2>Find your <em>place.</em></h2></div>
+            <span class="floorplan-legend"><i></i> Select a table</span>
+          </div>
+          <div class="floorplan-viewport">
+            <svg class="floorplan" viewBox="0 0 640 560" role="group" aria-label="Interactive Marrows lounge floor plan">
+              <defs>
+                <linearGradient id="plan-floor" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#211d25"/><stop offset="100%" stop-color="#0e0c12"/></linearGradient>
+                <radialGradient id="plan-glow"><stop offset="0%" stop-color="rgba(244,227,184,.32)"/><stop offset="100%" stop-color="rgba(244,227,184,0)"/></radialGradient>
+              </defs>
+              <rect x="5" y="5" width="630" height="550" rx="14" fill="url(#plan-floor)" stroke="rgba(216,180,106,.35)"/>
+              <rect class="plan-zone garden" x="18" y="18" width="150" height="524" rx="8"/>
+              <rect class="plan-zone passage" x="178" y="18" width="448" height="66" rx="5"/>
+              <rect class="plan-zone bar" x="422" y="96" width="48" height="150" rx="5"/>
+              <rect class="plan-zone pantry" x="536" y="96" width="90" height="136" rx="5"/>
+              <rect class="plan-zone common" x="470" y="242" width="156" height="170" rx="5"/>
+              <rect class="plan-zone lift" x="536" y="420" width="90" height="122" rx="5"/>
+              <ellipse cx="320" cy="300" rx="150" ry="120" fill="rgba(216,180,106,.035)" stroke="rgba(216,180,106,.12)" stroke-dasharray="3 8"/>
+              <text class="plan-label" x="91" y="46">SUNken DECK</text>
+              <text class="plan-label" x="399" y="57">WIDE PASSAGE</text>
+              <text class="plan-label vertical" x="448" y="180" transform="rotate(-90 448 180)">BAR</text>
+              <text class="plan-label vertical" x="580" y="184" transform="rotate(-90 580 184)">PANTRY</text>
+              <text class="plan-label" x="548" y="266">COMMON AREA</text>
+              <text class="plan-label" x="320" y="297">LOUNGE</text>
+              <g v-for="table in loungeTables" :key="table.id" class="plan-table" :class="{ active: selectedLoungeTable && selectedLoungeTable.id === table.id, hovered: hoveredLoungeTable === table.id }" role="button" tabindex="0" :aria-label="table.name + ', ' + table.zone + ', seats ' + table.seats" :aria-pressed="selectedLoungeTable && selectedLoungeTable.id === table.id" @click="selectLoungeTable(table)" @mouseenter="hoveredLoungeTable = table.id" @mouseleave="hoveredLoungeTable = null" @focus="hoveredLoungeTable = table.id" @blur="hoveredLoungeTable = null" @keydown.enter.prevent="selectLoungeTable(table)" @keydown.space.prevent="selectLoungeTable(table)">
+                <circle v-if="hoveredLoungeTable === table.id || (selectedLoungeTable && selectedLoungeTable.id === table.id)" :cx="table.x + table.w / 2" :cy="table.y + table.h / 2" :r="Math.max(table.w, table.h) * .8" fill="url(#plan-glow)"/>
+                <rect class="table-hitarea" :x="table.x - 4" :y="table.y - 4" :width="table.w + 8" :height="table.h + 8" rx="10"/>
+                <path v-if="table.shape === 'curve'" :d="'M '+(table.x+6)+' '+(table.y+4)+' A '+(table.h/2)+' '+(table.h/2)+' 0 0 0 '+(table.x+6)+' '+(table.y+table.h-4)+' L '+(table.x+22)+' '+(table.y+table.h-4)+' A '+((table.h-28)/2)+' '+((table.h-28)/2)+' 0 0 1 '+(table.x+22)+' '+(table.y+28)+' Z'"/>
+                <circle v-else-if="table.shape === 'circle'" :cx="table.x + table.w / 2" :cy="table.y + table.h / 2" :r="table.w / 2"/>
+                <rect v-else :x="table.x" :y="table.y" :width="table.w" :height="table.h" rx="7"/>
+                <text :x="table.x + table.w / 2" :y="table.y + table.h / 2 + 4">{{ table.code }}</text>
+                <text v-if="hoveredLoungeTable === table.id || (selectedLoungeTable && selectedLoungeTable.id === table.id)" class="plan-table-name" :x="table.x + table.w / 2" :y="table.y - 8">{{ table.shortName }}</text>
+              </g>
+              <g class="plan-key"><circle cx="202" cy="520" r="5"/><text x="215" y="524">TABLE REQUEST</text><text x="370" y="524">Tap a table to preview</text></g>
+            </svg>
+          </div>
+          <p class="plan-caption">Choose a table on the map or from the list below. All reservations are requests until confirmed by our team.</p>
+          <div class="lounge-table-list">
+            <button v-for="table in loungeTables" :key="table.id" type="button" :class="{ selected: selectedLoungeTable && selectedLoungeTable.id === table.id }" @click="selectLoungeTable(table)">
+              <span>{{ table.code }}</span><strong>{{ table.name }}</strong><small>{{ table.zone }} · {{ table.seats }} seats</small>
+            </button>
+          </div>
+        </div>
+
+        <aside class="lounge-detail glass" :class="{ 'has-table': selectedLoungeTable }">
+          <template v-if="selectedLoungeTable">
+            <div class="lounge-detail-image" :style="{ backgroundImage: 'linear-gradient(0deg, rgba(8,7,11,.7), transparent), url(' + selectedLoungeTable.image + ')' }">
+              <span>{{ selectedLoungeTable.zone }}</span><button type="button" aria-label="Clear selected lounge table" @click="selectedLoungeTable = null">×</button>
+            </div>
+            <div class="lounge-detail-body">
+              <p class="eyebrow">{{ selectedLoungeTable.code }} · {{ selectedLoungeTable.seats }} seats</p>
+              <h3>{{ selectedLoungeTable.name }}</h3>
+              <p class="lounge-description">{{ selectedLoungeTable.description }}</p>
+              <div class="lounge-perks"><span v-for="perk in selectedLoungeTable.perks" :key="perk">{{ perk }}</span></div>
+              <p class="spend-indicator">Indicative minimum spend <strong>{{ money(selectedLoungeTable.minSpend) }}</strong></p>
+              <form class="lounge-request" @submit.prevent="submitLoungeRequest">
+                <p class="eyebrow">Send a reservation request</p>
+                <label>Name<input v-model.trim="loungeRequest.guest_name" autocomplete="name" :aria-invalid="!!loungeErr.guest_name"></label><small v-if="loungeErr.guest_name">{{ loungeErr.guest_name }}</small>
+                <label>Email<input v-model.trim="loungeRequest.email" type="email" autocomplete="email" :aria-invalid="!!loungeErr.email"></label><small v-if="loungeErr.email">{{ loungeErr.email }}</small>
+                <div class="lounge-form-row">
+                  <label>Guests<input v-model.number="loungeRequest.party_size" type="number" min="1" :max="selectedLoungeTable.seats" :aria-invalid="!!loungeErr.party_size"></label>
+                  <label>Phone <span class="opt">optional</span><input v-model.trim="loungeRequest.phone" type="tel" autocomplete="tel"></label>
+                </div>
+                <small v-if="loungeErr.party_size">{{ loungeErr.party_size }}</small>
+                <label>Service style
+                  <select v-model="loungeRequest.packageName"><option v-for="pack in loungePackages" :key="pack.name" :value="pack.name">{{ pack.name }}</option></select>
+                </label>
+                <label>Notes <span class="opt">optional</span><textarea v-model.trim="loungeRequest.note" rows="2" maxlength="360" placeholder="Occasion, preferences or requests"></textarea></label>
+                <p class="lounge-api-note">This submits a standard reservation request with your lounge selection attached. The existing reservations API does not expose live lounge availability or package booking.</p>
+                <p v-if="loungeMessage" class="form-error" :class="{ success: loungeSuccess }" role="status">{{ loungeMessage }}</p>
+                <button class="btn gold lounge-submit" :disabled="loungeBusy">{{ loungeBusy ? 'Sending request...' : 'Request this table' }}</button>
+              </form>
+            </div>
+          </template>
+          <div v-else class="lounge-empty">
+            <span class="empty-monogram">M</span><p class="eyebrow">A place for your evening</p><h3>Choose your<br><em>table.</em></h3><p>Select a table on the floor plan to see its details and send a request.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="feature-bottom-cta">
+      <p class="eyebrow">The room is yours to discover</p><h2>Make an evening <em>of it.</em></h2>
+      <a class="btn gold" href="#/" @click.prevent="navigateToSection('reserve')">Request a dining reservation</a>
+    </section>
+  </main>
+
+  <!-- ============ SOMMELIER ============ -->
+  <main v-else-if="view === 'sommelier'" class="feature-page sommelier-page">
+    <div class="feature-topline">
+      <a class="brand" href="#/" @click="goTop" aria-label="Marrows home">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-copy"><strong>MARROWS</strong><small>Fine Dining &amp; Lounge</small></span>
+      </a>
+      <nav aria-label="Sommelier navigation">
+        <a href="#/lounge">The Lounge</a><a href="#/" @click.prevent="navigateToSection('menu')">Menu</a><a href="#/" @click="goTop">Maison</a>
+      </nav>
+    </div>
+    <section class="feature-hero sommelier-hero">
+      <div class="feature-kicker"><span></span> The Sommelier’s Table</div>
+      <h1>Tell us how you taste.<br><em>We’ll help you choose.</em></h1>
+      <p>Shape a palate profile and explore dishes that suit the way you like to eat. Adjust the dials to see your recommendations change.</p>
+    </section>
+    <section class="sommelier-engine">
+      <div class="palate-card glass">
+        <p class="eyebrow">Step one · Your palate</p><h2>Describe your <em>taste.</em></h2>
+        <p class="sommelier-intro">Five flavour dials and a mood. Your profile stays in this browser; saving profiles to the restaurant backend requires a sommelier API that the current backend does not provide.</p>
+        <div class="palate-slider" v-for="axis in palateAxes" :key="axis.key">
+          <div class="palate-slider-head"><label :for="'palate-' + axis.key">{{ axis.label }}</label><span>{{ palate[axis.key] }}</span></div>
+          <input :id="'palate-' + axis.key" type="range" min="0" max="10" step="1" v-model.number="palate[axis.key]" :style="{ '--range-progress': (palate[axis.key] * 10) + '%' }">
+          <div class="palate-scale"><span>{{ axis.low }}</span><span>{{ axis.high }}</span></div>
+        </div>
+        <div class="palate-group"><span class="label">Tonight’s mood</span><div class="palate-chips">
+          <button v-for="mood in palateMoods" :key="mood" type="button" :class="{ selected: palate.mood === mood }" @click="palate.mood = mood">{{ mood }}</button>
+        </div></div>
+        <div class="palate-avoid">
+          <span class="label">Hide dishes mentioning</span>
+          <p>Descriptions may be incomplete; always confirm allergies with our team.</p>
+          <div class="palate-chips">
+            <button v-for="item in palateAvoids" :key="item" type="button" :class="{ selected: palate.avoid.includes(item) }" :aria-pressed="palate.avoid.includes(item)" @click="togglePalateAvoid(item)">{{ item }}</button>
+          </div>
+        </div>
+        <label class="zero-proof-toggle"><input type="checkbox" v-model="palate.zeroProof"><span class="toggle-mark"></span><span>Keep the suggestions alcohol-free</span></label>
+        <button type="button" class="btn ghost reset-palate" @click="resetPalate">Reset palate</button>
+      </div>
+      <div class="pairing-results">
+        <div class="pairing-results-head"><div><p class="eyebrow">Based on your flavour profile</p><h2>Your menu <em>matches.</em></h2></div><span class="palate-score">{{ sommelierScore }}<small>FIT</small></span></div>
+        <p class="pairing-explainer">{{ sommelierSummary }}</p>
+        <div v-if="!sommelierRecommendations.length" class="empty-menu-match"><h3>No dishes match these preferences.</h3><p>Adjust your filters or ask our team to confirm ingredients and allergen needs.</p></div>
+        <article class="pairing-result-card" v-for="(dish, index) in sommelierRecommendations" :key="dish.id">
+          <div class="result-number">0{{ index + 1 }}</div>
+          <div class="result-copy"><span class="eyebrow">{{ dish.category }}</span><h3>{{ dish.product_name }}</h3><p>{{ dish.description }}</p><small>{{ dish.pairingNote }}</small></div>
+          <strong class="result-price">{{ money(dish.price) }}</strong>
+        </article>
+        <p class="sommelier-disclaimer">These are menu suggestions, not live wine or cellar pairings. Pairing notes are generated from dish descriptions; ask our team about current pours and allergens.</p>
+        <a class="text-cta" href="#/" @click.prevent="navigateToSection('menu')">Browse the full menu <span>↗</span></a>
+      </div>
+    </section>
+    <section class="feature-bottom-cta">
+      <p class="eyebrow">When you’re ready</p><h2>There’s a place <em>for you.</em></h2>
+      <a class="btn gold" href="#/lounge">Explore the lounge</a>
+    </section>
+  </main>
 
   <!-- ============ STAFF SIGN IN ============ -->
   <main v-else-if="view === 'login'" class="signin">
